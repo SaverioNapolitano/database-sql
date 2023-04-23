@@ -135,3 +135,121 @@ CREATE TABLE persona5(
 );
 
 --NOT NULL
+CREATE TABLE persona6(
+    CF VARCHAR(20) PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL, 
+    cognome VARCHAR(50) NOT NULL
+);
+--Equivalenti
+CREATE TABLE persona7(
+    CF VARCHAR(20) PRIMARY KEY, 
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    CHECK (nome IS NOT NULL), 
+    CHECK (cognome IS NOT NULL)
+);
+
+--UNIQUE
+--In questo caso, l’istanza della relazione non può contenere due persone con lo stesso nome e cognom
+CREATE TABLE persona8(
+    CF VARCHAR(20) PRIMARY KEY, 
+    nome VARCHAR(50),
+    cognome VARCHAR(50), 
+    UNIQUE(cognome, nome)
+);
+
+--Alternative Key: UNIQUE & NOT NULL
+CREATE TABLE persona9(
+    CF VARCHAR(20) PRIMARY KEY, 
+    nome VARCHAR(50) NOT NULL, 
+    cognome VARCHAR(50) NOT NULL, 
+    UNIQUE(cognome, nome)
+);
+
+--CHECK
+CREATE TABLE persona10(
+CF VARCHAR(20) PRIMARY KEY, 
+nome VARCHAR(50),
+cognome VARCHAR(50),
+eta INT CHECK(eta >0 AND eta < 120)
+);
+--Equivalenti
+CREATE TABLE persona11(
+CF VARCHAR(20) PRIMARY KEY, 
+nome VARCHAR(50),
+cognome VARCHAR(50),
+eta INT,
+CHECK(eta >0 AND eta < 120)
+);
+
+--ALTER TABLE: modifica la tabella
+--Sintassi: ALTER TABLE nome_tabella
+--                          ADD nome_colonna tipo_colonna [vincoli di colonna]
+--[oppure]                  ADD CONSTRAINT nome_vincolo definizione_vincolo
+--[oppure]                  ALTER COLUMN nome_colonna tipo_colonna
+--[oppure]                  DROP COLUMN nome_colonna
+--[oppure]                  DROP CONSTRAINT nome_vincolo
+--...
+--NB: [] = opzionale
+ALTER TABLE persona10
+    ADD luogo VARCHAR(50);
+
+ALTER TABLE persona11
+    ALTER COLUMN nome VARCHAR(200);
+
+--Se non diamo esplicitamente un nome ad un vincolo, il sistema ne assegna uno in modo implicito
+--Visibile in Keys
+CREATE TABLE T_persona(
+    CF varchar(20) PRIMARY KEY, 
+    nome varchar(50),
+    cognome varchar(50)
+);
+
+CREATE TABLE T_Tasse( 
+    CFcontribuente varchar(20) REFERENCES T_persona, 
+    anno INT,
+    importo INT,
+    PRIMARY KEY(CFcontribuente,anno) 
+);
+
+
+--CONSTRAINT: assegno esplicitamente un nome ad un vincolo
+CREATE TABLE T_persona1(
+    CF varchar(20) CONSTRAINT PK_PERSONA_CF PRIMARY KEY, 
+    nome varchar(50),
+    cognome varchar(50)
+);
+
+CREATE TABLE T_Tasse1( 
+    CFcontribuente varchar(20) CONSTRAINT FK_TASSE_CFcontribuente REFERENCES T_persona, 
+    anno INT,
+    importo INT,
+    CONSTRAINT PK_TASSE_CFcontribuente_anno PRIMARY KEY(CFcontribuente,anno) 
+);
+
+--Nome vincolo utile per
+--Interpretare il messaggio di errore in caso di violazione
+INSERT INTO T_persona1 VALUES ('UgoRossiXYZ', 'Ugo', 'Rossi');
+INSERT INTO T_Tasse1 VALUES ('UgoRossiXYZ', 2021, 100);
+INSERT INTO T_Tasse1 VALUES ('UgoRossiXYZ', 2021, 50);
+--Eliminare il vincolo
+ALTER TABLE T_Tasse1
+    DROP CONSTRAINT PK_TASSE_CFcontribuente_anno;
+
+--CONSTRAINT applicato ad Alternative Key
+CREATE TABLE Persona12(
+    CF VARCHAR(20) CONSTRAINT ChiavePrimariaPersona PRIMARY KEY, 
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
+    CONSTRAINT ChiaveAlterativaPersona UNIQUE(nome, cognome) 
+);
+--Diverso rispetto a due chiave alternative separate
+CREATE TABLE Persona13(
+    CF VARCHAR(20) CONSTRAINT ChiavePrimariaPersona PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL, 
+    cognome VARCHAR(50) NOT NULL, 
+    CONSTRAINT ChiaveAlterativaPersona_1 UNIQUE(nome), 
+    CONSTRAINT ChiaveAlteranivaPersona_2 UNIQUE(cognome)
+);
+
+
