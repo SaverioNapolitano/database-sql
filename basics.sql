@@ -90,3 +90,48 @@ INSERT INTO persona VALUES (NULL, 'bianchi');
 
 --SELECT * FROM nome_tabella mostra tutto il contenuto di nome_tabella
 SELECT * FROM persona;
+
+--Vincoli esprimibili in SQL
+
+--PRIMARY KEY
+CREATE TABLE persona2(
+    CF VARCHAR(20) PRIMARY KEY,
+    nome VARCHAR(50),
+    cognome VARCHAR(50)
+);
+
+CREATE TABLE persona3(
+    CF VARCHAR(20),
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    PRIMARY KEY(nome, cognome)
+);
+
+--FOREIGN KEY
+CREATE TABLE comune(
+    comune VARCHAR(50) PRIMARY KEY,
+    provincia VARCHAR(50)
+);
+
+CREATE TABLE persona4(
+    CF VARCHAR(20) PRIMARY KEY,
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    comune_di_residenza VARCHAR(50) REFERENCES comune(comune)
+);
+
+--FOREIGN KEY (come vincolo di tabella)
+CREATE TABLE comune2(
+    comune VARCHAR(50) PRIMARY KEY,
+    provincia VARCHAR(50)
+);
+
+CREATE TABLE persona5(
+    CF VARCHAR(20) PRIMARY KEY,
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    comune_di_residenza VARCHAR(50) 
+    FOREIGN KEY(comune_di_residenza) REFERENCES comune(comune)
+);
+
+--NOT NULL
