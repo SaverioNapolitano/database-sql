@@ -8,15 +8,18 @@
 --);
 --NB: [] = opzionale
 CREATE TABLE personaA10(
-     nome VARCHAR(50), cognome VARCHAR(50)
+     nome VARCHAR(50), 
+     cognome VARCHAR(50)
 );
 
 CREATE TABLE personaB10(
-     nome VARCHAR(50), cognome VARCHAR(50)
+     nome VARCHAR(50), 
+     cognome VARCHAR(50)
 );
 
 CREATE TABLE personaC10(
-     nome VARCHAR(50), cognome VARCHAR(50)
+     nome VARCHAR(50), 
+     cognome VARCHAR(50)
 );
 
 --INSERT: inserisce valore nella tabella
