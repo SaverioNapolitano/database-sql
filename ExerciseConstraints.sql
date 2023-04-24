@@ -19,10 +19,14 @@ CREATE TABLE RubricaTelefonica(
     cognome VARCHAR(50) NOT NULL,
     NumeroTelefono VARCHAR(12) NOT NULL
     --PRIMARY KEY(nome, cognome, NumeroTelefono) alternativa al metodo sotto (in questo caso il nome del vincolo sarebbe quello di default)
+    --se faccio così non serve specificare il not null
+    --Oppure posso inglobare direttamente nella tabella il vincolo senza usare ALTER TABLE
+    --CONSTRAINT PK_nome_cognome_NumeroTelefono PRIMARY KEY(nome, cognome, NumeroTelefono);
 );
  --A questo punto posso imporre il vincolo che (nome, cognome, NumeroTelefono) sia chiave primaria
  ALTER TABLE RubricaTelefonica
     ADD CONSTRAINT PK_nome_cognome_NumeroTelefono PRIMARY KEY(nome, cognome, NumeroTelefono);
+
 
 --3) Chiave primaria (nome, cognome)
 --Non ho vincoli su NumeroTelefono, mentre nome e cognome devono essere not null
@@ -32,6 +36,9 @@ CREATE TABLE RubricaTelefonica(
     cognome VARCHAR(50) NOT NULL,
     NumeroTelefono VARCHAR(12)
     --PRIMARY KEY(nome, cognome) alternativa al metodo sotto (in questo caso il nome sarebbe quello di default)
+    --se faccio così non serve specificare il not null
+    --Oppure posso inglobare direttamente nella tabella il vincolo senza usare ALTER TABLE
+    --CONSTRAINT PK_nome_cognome PRIMARY KEY(nome, cognome);
 );
 --A questo punto posso imporre il vincolo che (nome, cognome) sia chiave primaria
 ALTER TABLE RubricaTelefonica
@@ -45,6 +52,9 @@ CREATE TABLE RubricaTelefonica(
     cognome VARCHAR(50),
     NumeroTelefono VARCHAR(12) NOT NULL
     --PRIMARY KEY(NumeroTelefono) alternativa al metodo sotto (in questo caso il nome sarebbe quello di default)
+    --se faccio così non serve specificare il not null
+    --Oppure posso inglobare direttamente nella tabella il vincolo senza usare ALTER TABLE
+    --CONSTRAINT PK_NumeroTelefono PRIMARY KEY(NumeroTelefono);
 );
 --A questo punto posso imporre il vincolo che (NumeroTelefono) sia chiave primaria
 ALTER TABLE RubricaTelefonica
@@ -58,7 +68,13 @@ CREATE TABLE RubricaTelefonica(
     cognome VARCHAR(50) NOT NULL,
     NumeroTelefono VARCHAR(12) NOT NULL
     --PRIMARY KEY(nome, cognome) alternativa al metodo sotto (in questo caso il nome sarebbe quello di default)
+    --se faccio così non serve specificare il not null
+    --Oppure posso inglobare direttamente nella tabella il vincolo senza usare ALTER TABLE
+    --CONSTRAINT PK_nome_cognome PRIMARY KEY(nome, cognome);
     --UNIQUE(NumeroTelefono) alternativa al metodo sotto (in questo caso il nome sarebbe quello di default)
+    --per l'alternative key il not null va specificato comunque
+    --Oppure posso inglobare direttamente nella tabella il vincolo senza usare ALTER TABLE
+    --CONSTRAINT AK_NumeroTelefono UNIQUE(NumeroTelefono);
 );
 --A questo punto posso imporre il vincolo che (nome, cognome) sia chiave primaria e (NumeroTelefono) sia chiave alternativa
 ALTER TABLE RubricaTelefonica

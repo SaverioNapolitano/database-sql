@@ -123,7 +123,8 @@ CREATE TABLE persona4(
     comune_di_residenza VARCHAR(50) REFERENCES comune(comune)
 );
 
---FOREIGN KEY (come vincolo di tabella)
+--FOREIGN KEY (come vincolo di tabella) 
+--NB: equivalente a quella sopra
 CREATE TABLE comune2(
     comune VARCHAR(50) PRIMARY KEY,
     provincia VARCHAR(50)
