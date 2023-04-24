@@ -274,3 +274,5 @@ CREATE TABLE RubricaTelefonica(
     NumeroTelefono VARCHAR(12),
     FOREIGN KEY(nome, cognome) REFERENCES Persona14(nome, cognome) --È necessario indicare gli attributi della chiave alternativa, nello stesso ordine
 );
+
+DROP TABLE RubricaTelefonica;
