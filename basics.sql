@@ -198,7 +198,7 @@ ALTER TABLE persona11
     ALTER COLUMN nome VARCHAR(200);
 
 --Se non diamo esplicitamente un nome ad un vincolo, il sistema ne assegna uno in modo implicito
---Visibile in Keys
+--Visibile in Keys (PK: punta verso sinistra, FK: punta verso destra, AK: punta verso l'alto)
 CREATE TABLE T_persona(
     CF varchar(20) PRIMARY KEY, 
     nome varchar(50),
@@ -238,10 +238,10 @@ ALTER TABLE T_Tasse1
 
 --CONSTRAINT applicato ad Alternative Key
 CREATE TABLE Persona12(
-    CF VARCHAR(20) CONSTRAINT ChiavePrimariaPersona PRIMARY KEY, 
+    CF VARCHAR(20) CONSTRAINT ChiavePrimariaPersona12 PRIMARY KEY, 
     nome VARCHAR(50) NOT NULL,
     cognome VARCHAR(50) NOT NULL,
-    CONSTRAINT ChiaveAlterativaPersona UNIQUE(nome, cognome) 
+    CONSTRAINT ChiaveAlterativaPersona12 UNIQUE(nome, cognome) 
 );
 --Diverso rispetto a due chiave alternative separate
 CREATE TABLE Persona13(
@@ -252,4 +252,25 @@ CREATE TABLE Persona13(
     CONSTRAINT ChiaveAlteranivaPersona_2 UNIQUE(cognome)
 );
 
+--Posso dare nomi a più vincoli
+CREATE TABLE Persona14(
+    CF VARCHAR(20) CONSTRAINT ChiavePrimariaPersona PRIMARY KEY, 
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    CONSTRAINT AKPersonaUnique UNIQUE(nome, cognome), 
+    CONSTRAINT AKPersonaNotNull CHECK(nome IS NOT NULL AND cognome IS NOT NULL)
+);
 
+--È possibile usare anche le chiavi alternative come foreign key
+CREATE TABLE Tasse(
+    CFcontribuente VARCHAR(20) REFERENCES Persona14, --attributo CF sottinteso, si può omettere in quanto c'è una sola PK
+    anno INT,
+    importo INT
+);
+
+CREATE TABLE RubricaTelefonica(
+    nome VARCHAR(50),
+    cognome VARCHAR(50),
+    NumeroTelefono VARCHAR(12),
+    FOREIGN KEY(nome, cognome) REFERENCES Persona14(nome, cognome) --È necessario indicare gli attributi della chiave alternativa, nello stesso ordine
+);
