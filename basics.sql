@@ -44,7 +44,8 @@ TRUNCATE TABLE personaA10;
 --DROP TABLE: elimina una tabella da un database
 --Sintassi: DROP TABLE nome_tabella
 DROP TABLE personaA10;
-
+DROP TABLE personaB10;
+DROP TABLE personaC10;
 --PRIMARY KEY: indica che l'attributo (o l'insieme di attributi) è chiave primaria
 --NOT NULL: indica che l'attributo non può assumere valori nulli
 CREATE TABLE STUDENTE(
@@ -72,6 +73,8 @@ CREATE TABLE ESAME(
     PRIMARY KEY(Matr, Codice)
 );
 
+DROP TABLE STUDENTE, ESAME, CORSO;
+DROP TABLE DOCENTE;
 --USE: connette ad un database
 --Sintassi: USE nome_database
 
@@ -280,3 +283,5 @@ CREATE TABLE RubricaTelefonica(
 );
 
 DROP TABLE RubricaTelefonica;
+DROP TABLE comune2, persona10, persona11, persona2, persona3, persona4, persona5, persona6, persona7, persona8, persona9, Persona12, T_persona1, T_Tasse, T_Tasse1, Tasse;
+DROP TABLE comune, Persona14, T_persona
