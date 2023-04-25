@@ -214,7 +214,6 @@ ALTER TABLE T_Tasse
 
 -- Slide : Alternative Key
 -- Una chiave alternativa si definisce utilizzando il vincolo UNIQUE & NOT NULL
---INIZIO UNCHECKED
 DROP TABLE Persona
 CREATE TABLE Persona(
 	CF varchar(20) constraint ChiavePrimariaPersona PRIMARY KEY,
@@ -233,7 +232,7 @@ CONSTRAINT ChiaveAlterantivaPersona_2 UNIQUE(cognome));
 
 
 -- È possibile usare anche le chiavi alternative come foreign key
-
+DROP TABLE RubricaTelefonica
 CREATE TABLE RubricaTelefonica(
 	nome varchar(50),
 	cognome varchar(50),
@@ -244,8 +243,8 @@ REFERENCES	Persona(nome, cognome) );
 -- Ricordarsi che l'ordine degli attributi della foreign key
 -- deve essere lo stesso di quello usato
 -- per definire la chiave
---FINE UNCHECKED
 
+DROP TABLE Tasse
 CREATE TABLE Tasse(
 	CFcontribuente varchar(20) REFERENCES persona,
 	anno int,
@@ -321,7 +320,7 @@ select * from Docente join Studente on (Docente.CF=Studente.CF_Docente_Tesi)
 -- si noti che manca il valore NULL
 
 -- SLIDE : Chiavi e superchiavi 
-
+DROP TABLE persona1;
 CREATE TABLE persona1(
   CF varchar(20) NOT NULL,
   nome varchar(50) NOT NULL,
@@ -337,13 +336,13 @@ constraint ChiavePrimariaPersona1 Primary Key(nome, cognome, CF) );
 --  3) Un sottinsieme  di una chiave esterna (caso molto raro ...)
 
 -- Tabella Persona con chiave primaria CF (ma il discorso è valido anche per chiavi alternative
---INIZIO UNCHECKED
+
 DROP TABLE Persona
 CREATE TABLE Persona(
   CF varchar(20) PRIMARY KEY,
   nome varchar(50) NOT NULL,
   cognome varchar(50) NOT NULL)
---FINE UNCHECKED
+
 -- Iniziamo con il caso 2
 -- Tabella Studente con CF che è sia chiave primaria che chiave esterna  riferita a Persona
 
