@@ -464,8 +464,3 @@ insert into Arco values('C_PuntoPartenza', 'B_PuntoIntermedio', 30)
 insert into Arco values('C_PuntoPartenza', 'B_PuntoIntermedio', 30)
 						,('A_PuntoArrivo', 'C_PuntoPartenza', 50)
 						,('B_PuntoIntermedio', 'A_PuntoArrivo', 10)
-
-
-
-
-
