@@ -376,7 +376,14 @@ WHERE MATR NOT IN (
 
 --RISCRIVERE CON NOT EXISTS
 
-
+SELECT S1.MATR, S1.SNOME 
+FROM S S1
+WHERE NOT EXISTS (SELECT S2.MATR 
+                    FROM S S2
+                            JOIN E ON (E.MATR = S1.MATR)
+                            JOIN C ON (E.CC = C.CC)
+                    WHERE CNOME LIKE '%Fisica%'
+)
 
 
 
@@ -399,8 +406,6 @@ WHERE S.MATR NOT IN ( --QUANDO SUBQUERY NON HA CORRELAZIONE CON L'ESTERNO SI PUÃ
                             JOIN C ON (E.CC = C.CC)
                     WHERE CNOME LIKE '%Fisica%'
 )
-
---FARE GLI ALTRI ESERCIZI (DAL 7 IN POI)
 
 /*SOLUZIONE*/
 /*6 - Matricola e Nome degli studenti che hanno sostenuto almeno un esame di un corso di Fisica*/
