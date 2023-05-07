@@ -481,6 +481,11 @@ WHERE CNome LIKE'Fisica%'
 --Selezionare gli studenti che hanno sostenuto 
 --almeno un esame
 
+SELECT DISTINCT S.*
+FROM S 
+		JOIN E ON (S.MATR = E.MATR)
+
+
 SELECT s.*
 FROM s JOIN e ON s.Matr=e.Matr
 
@@ -490,7 +495,12 @@ FROM s JOIN e ON s.Matr=e.Matr
 
 --Selezionare gli studenti che hanno
 --sostenuto almeno un esame oppure nessuno
- ???
+SELECT DISTINCT S.*
+FROM S 
+		LEFT OUTER JOIN E ON (S.MATR = E.MATR) 
+
+--OSSERVAZIONE: CIOÈ TUTTI GLI STUDENTI
+--SELECT * FROM S
 
 
  ---------------------------------------------
@@ -516,12 +526,17 @@ FROM s JOIN e ON s.Matr=e.Matr
 USE BDATI 
 /*1. 	Combinazioni di studenti e di docenti residenti nella stessa citta' inclusi gli studenti (docenti) che risiedono in una citta' che non ha corrispondenza nella relazione dei docenti (studenti)*/
 
+SELECT S.*, D.*
+FROM S 
+		FULL OUTER JOIN D ON (S.CITTA = D.CITTA)
 
 --SUGGERIMENTO:
 -- Seleziono gli studenti e le loro citta' di residenza
 
 
+
 -- Seleziono i docenti e le loro citta' di residenza
+		
 
 
 -- Seleziono le combinazioni di studenti e di docenti residenti nella stessa citta'
@@ -534,9 +549,9 @@ USE BDATI
 /*SOLUZIONE*/
 /*1. 	Combinazioni di studenti e di docenti residenti nella stessa citta' inclusi gli studenti (docenti) che risiedono in una citta' che non ha corrispondenza nella relazione dei docenti (studenti)*/
 -- Seleziono gli studenti e le loro citta' di residenza
-SELECT S.SNome,S.citta  FROM S'
+SELECT S.SNome,S.citta  FROM S
 -- Seleziono i docenti e le loro citta' di residenza
-SELECT D.CNome,D.citta    FROM D'
+SELECT D.CNome,D.citta    FROM D
 -- Seleziono le combinazioni di studenti e di docenti residenti nella stessa citta'
 SELECT *  FROM S JOIN D ON S.Citta=D.Citta
 -- Aggiungo le tuple dangling delle due tabelle
@@ -544,6 +559,9 @@ SELECT *  FROM S FULL JOIN D ON S.Citta=D.Citta
 
 
 /*2. Matricole di studenti con i codici dei corsi dei relativi esami sostenuti, inclusi gli studenti che non hanno sostenuto alcun esame*/
+SELECT S.MATR, E.CC  
+FROM S 
+		LEFT OUTER JOIN E ON (S.MATR = E.MATR)
 
 
 --SUGGERIMENTO
@@ -568,7 +586,10 @@ SELECT S.Matr, E.CC
 FROM S left JOIN E ON (E.Matr=S.Matr) 
 
 /*3. Matricole di studenti con i codici dei corsi dei relativi esami sostenuti, inclusi gli studenti che non hanno sostenuto alcun esame e i corsi per i quali non ci sono esami sostenuti*/
-
+SELECT S.MATR, C.CC 
+FROM S 
+		LEFT OUTER JOIN E ON (S.MATR = E.MATR)
+		RIGHT OUTER JOIN C ON (E.CC = C.CC)
 
 
 
@@ -587,6 +608,14 @@ SELECT *  FROM (S left JOIN E ON (E.Matr=S.Matr))
 			
 --USO DELL'ALIAS
 /*4. Visualizza matricola e Nome di studente per tutti  gli studenti iscritti al secondo anno di corso*/
+SELECT S.MATR, S.SNOME 
+FROM S 
+WHERE S.ACORSO = 2
+
+
+
+
+
 SELECT stud.Matr as matricola, SNome as nome_dello_studente
 FROM S stud
 WHERE stud.ACorso=2
@@ -594,6 +623,11 @@ WHERE stud.ACorso=2
 
 
 /*5. Coppie di studenti che risiedono nella stessa citta'*/
+SELECT S1.*, S2.*
+FROM S S1
+		JOIN S S2 ON (S1.CITTA = S2.CITTA)
+WHERE S1.MATR > S2.MATR
+
 
 
 
@@ -613,6 +647,16 @@ WHERE S1.Matr > S2.Matr
 /* Matricola degli studenti che hanno sostenuto almeno uno degli esami (stesso corso CC) 
   sostenuti dallo studente di nome 'Carla Longo' 
   risultato: M1, M2, M4, M6 e M7 */
+
+SELECT DISTINCT E2.MATR 
+FROM S
+		JOIN E E1 ON (S.MATR = E1.MATR)
+		JOIN E E2 ON (E1.CC = E2.CC) 
+WHERE S.SNOME = 'Carla Longo' AND E1.MATR <> E2.MATR
+		
+
+
+
   
 SELECT DISTINCT E2.MATR 
 FROM	S 		
@@ -645,7 +689,18 @@ WHERE   EXISTS (	SELECT E1.CC
 /* Matricola degli studenti che hanno sostenuto almeno uno degli appelli  
    (stesso corso CC e stessa Data)  sostenuti dallo studente 'Carla Longo' 
 	risultato:  M2 e M4  */
- 
+SELECT DISTINCT E2.MATR 
+FROM S
+		JOIN E E1 ON (S.MATR = E1.MATR)
+		JOIN E E2 ON (E1.CC = E2.CC) 
+WHERE S.SNOME = 'Carla Longo' AND E1.MATR <> E2.MATR AND E1.DATA = E2.DATA
+
+
+
+
+
+
+
   
 SELECT DISTINCT E2.MATR 
 FROM	S 		
@@ -676,7 +731,8 @@ WHERE   EXISTS (	SELECT E1.CC
 
 /* Matricola degli studenti che non hanno sostenuto esami (stesso corso CC)  
    assieme allo studente  'Carla Longo' ; risultato: M1, M2 e M7 */
-   
+
+
    
 SELECT DISTINCT E2.MATR 
 FROM	E AS E2 		
@@ -735,8 +791,8 @@ SELECT *,1  FROM (S left JOIN E ON (E.Matr=S.Matr))
 
 
 
-Una tupla tR di r (tS di s) che non partecipa a tale corrispondenza, e che quindi non contribuisce al JOIN, `e detta dangling.
-Piu` precisamente, una tupla tR di r `e detta dangling se non esiste t ∈ r1stalechet[X]=tR (stessacosapertS dis).
+--Una tupla tR di r (tS di s) che non partecipa a tale corrispondenza, e che quindi non contribuisce al JOIN, `e detta dangling.
+--Piu` precisamente, una tupla tR di r `e detta dangling se non esiste t ∈ r1stalechet[X]=tR (stessacosapertS dis).
 
 
 
