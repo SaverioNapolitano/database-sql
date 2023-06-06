@@ -56,4 +56,36 @@ HAVING SUM(NPROVETTE) >=ALL(
     GROUP BY PA.CF
 )
 
+/*4. Individuare tutti i dipendenti a cui fa riferimento (direttamente o indirettamente) l’infermiere Marco Bianchi.*/
+
+WITH QUERY4(CF, RESPONSABILE) AS
+(
+        (
+                SELECT CF, RESPONSABILE
+                FROM DIPENDENTE
+                WHERE RESPONSABILE IS NOT NULL 
+        )
+        UNION ALL 
+        (
+                /*SELECT QUERY4.CF, D.RESPONSABILE
+                FROM QUERY4 
+                                JOIN DIPENDENTE D ON (QUERY4.RESPONSABILE = D.CF)
+                WHERE QUERY4.RESPONSABILE IS NOT NULL */
+                --EQUIVALENTI
+                SELECT D.CF, QUERY4.RESPONSABILE
+                FROM QUERY4 
+                                JOIN DIPENDENTE D ON (QUERY4.CF = D.RESPONSABILE)
+                WHERE D.RESPONSABILE IS NOT NULL 
+
+        )
+)
+
+SELECT D.*
+FROM QUERY4 Q 
+        JOIN DIPENDENTE D ON (Q.RESPONSABILE = D.CF)
+WHERE NOME = 'MARCO'
+AND COGNOME =  'BIANCHI' 
+AND RUOLO = 'INFERMIERE'
+
+
 
