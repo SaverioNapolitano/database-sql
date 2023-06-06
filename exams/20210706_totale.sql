@@ -74,6 +74,27 @@ HAVING SUM(PUNTI) >= ALL(
 )
 GO
 
+/*4. Selezionare il codice di tutti i ricambi di cui il ricambio codice 123456 fa parte. */
+
+WITH QUERY4(RICAMBIO, COMPOSTO) AS 
+(
+        (
+                SELECT CODR, COMPONE 
+                FROM RICAMBIO
+                WHERE COMPONE IS NOT NULL 
+        )
+        UNION ALL 
+        (
+                SELECT QUERY4.RICAMBIO, R.COMPONE 
+                FROM QUERY4 
+                                JOIN RICAMBIO R ON (QUERY4.COMPOSTO = R.CODR)
+                WHERE R.COMPONE IS NOT NULL 
+        )
+)
+
+SELECT COMPOSTO
+FROM QUERY4
+WHERE RICAMBIO = 123456
 
 
 
