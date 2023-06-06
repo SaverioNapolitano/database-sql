@@ -92,3 +92,25 @@ HAVING COUNT(*) > (
     WHERE YEAR(D.DATA) = 2019 
     AND P2.CF = P.CF
 )
+
+/*4. Scrivere una query ricorsiva che partendo dalla tabella “Dipartimento” visualizzi per l’azienda “Enzo Ferrari” tutta la gerarchia di dipartimenti che vi afferiscono.*/
+
+WITH RECDIP(SUBDIP, SUPERDIP) AS 
+(
+        (
+                SELECT SUBDIP, SUPERDIP
+                FROM DIPARTIMENTO
+                WHERE SUPERDIP IS NOT NULL 
+        )
+        UNION ALL 
+        (
+                SELECT D.SUBDIP, RD.SUPERDIP
+                FROM RECDIP RD 
+                                JOIN DIPARTIMENTO D ON (RD.SUBDIP = D.SUPERDIP)
+                WHERE D.SUPERDIP IS NOT NULL 
+        )
+)
+
+SELECT SUPERDIP --RIPORTO IN USCITA TUTTI I DATI DELLA GERARCHIA
+FROM RECDIP  --VADO SULLA TABELLA RICORSIVA
+WHERE SUBDIP = 'ENZO FERRARI' --FILTRO E RIPORTO IN USCITA SOLO QUELLI CHE SOTTO HANNO ENZO
