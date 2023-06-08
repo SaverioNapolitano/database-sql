@@ -1,4 +1,4 @@
-/*Domande di teoria secondo parziale*/
+/*Domande di teoria secondo parziale*/ 
 
 
 /*1. Istruzioni GROUP BY e HAVING in SQL: sintassi ed esempi.*/
