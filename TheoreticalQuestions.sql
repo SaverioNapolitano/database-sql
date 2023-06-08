@@ -486,7 +486,8 @@ S
 | ABC  | Via Nonantolana |
 --------------------------
 
-R (*theta-join*)_F S
+R (*theta-join*)_F S 
+	F: R.Nome = S.Nome
 
 ----------------------------------------------
 | R.Nome | DataNascita | S.Nome | Via        |
