@@ -137,6 +137,13 @@ WHERE MATR IN (
 
 PER OGNI STUDENTE CONFRONTA LA SUA MATRICOLA CON TUTTE LE MATRICOLE DEGLI STUDENTI CHE HANNO SOSTENUTO L'ESAME DEL CORSO C1 E SE TROVA 
 CORRISPONDENZA RIPORTA IN USCITA IL NOME DELLO STUDENTE
+--------
+| Nome |
+--------
+! A    |
+--------
+| B    |
+--------
 
 QUANTIFICATORE ESISTENZIALE: 
 
@@ -154,6 +161,13 @@ WHERE EXISTS (
 PER OGNI STUDENTE CONTROLLA SE ESISTE NELLA RELAZIONE ESAME UNA TUPLA CHE ABBIA LA STESSA MATRICOLA E IL CODICE CORSO 'C1' E SE LA TROVA
 RIPORTA IN USCITA IL NOME DELLO STUDENTE
 
+--------
+| Nome |
+--------
+! A    |
+--------
+| B    |
+--------
 */
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -240,23 +254,23 @@ FROM <tabella>
 Esempi: 
 
 R 
-----------------------------
-| Nome | DataNascita | Cod |
-----------------------------
-| Anna | 15/01/1975  | 1   |
-----------------------------
-| Luca | 22/01/1988  | 2   |
-----------------------------
+----------------------
+| Nome | DataNascita |
+----------------------
+| Anna | 15/01/1975  |
+----------------------
+| Luca | 22/01/1988  |
+----------------------
 
 S 
 
------------------------------------
-| Codice | Nome | Via             |
------------------------------------
-| 1      | Anna | Via Emilia      |
------------------------------------
-| 3      | ABC  | Via Nonantolana |
------------------------------------
+--------------------------
+| Nome | Via             |
+--------------------------
+| Anna | Via Emilia      |
+--------------------------
+| ABC  | Via Nonantolana |
+--------------------------
 
 
 SELECT *
