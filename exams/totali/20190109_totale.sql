@@ -27,31 +27,31 @@ Il predicato espresso nella clausola HAVING è formulato utilizzando:
 - Uno o più attributi specificati in <lista-GROUP>
 - Funzioni aggregate
 
-Esempi: 
+Esempio: 
 
 S 
-----------------------
-| NOME | CITTA | ETA |
-----------------------
-| A    | MO    | 16  |
-----------------------
-| B    | MI    | 19  |
-----------------------
-| C    | MO    | 21  |
-----------------------
+----------------------------
+| CF  | NOME | CITTA | ETA |
+----------------------------
+| CF1 | A    | MO    | 16  |
+----------------------------
+| CF2 | B    | MI    | 19  |
+----------------------------
+| CF3 | C    | MO    | 21  |
+----------------------------
 
-SELECT COUNT(*) AS NS
+SELECT NOME
 FROM S 
-GROUP BY CITTA 
+GROUP BY CITTA, NOME 
 HAVING ETA > 18
 
-----------------------
-| NOME | CITTA | ETA |
-----------------------
-| C    | MO    | 21  |
-----------------------
-| B    | MI   | 19  |
-----------------------
+--------
+| NOME |
+--------
+| C    |
+--------
+| B    |
+--------
 
 */
 
