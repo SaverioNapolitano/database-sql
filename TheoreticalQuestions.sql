@@ -238,11 +238,14 @@ FREQUENZA ÷ π_CODCOR(σ_CODDOC='D1'(CORSO))
 /*4. Operatori di JOIN in SQL*/
 
 /*
-Date due relazioni R e S, l’operazione di join serve per combinare tuple di R con tuple di S sulla base di condizioni espresse sugli attributi delle due relazioni, dette condizioni di join.
+Date due relazioni R e S, l’operazione di join serve per combinare tuple di R con tuple di S sulla base di condizioni espresse sugli attributi delle due relazioni, dette condizioni di join,
+in questo caso si parla di INNER JOIN.
 Join con clausola where : si evidenzia che è un sottoinsieme del prodotto cartesiano
 Join con operatore JOIN : si scrive il join direttamente nella clausola from
 La condizione di join può essere una condizione booleana, spesso un AND di condizioni semplici o molto raramente un OR di condizioni semplici
 Nella quasi totalità dei casi reali la condizione di join riguarda la foreign key 
+Quando devo fare un join due volte sulla stessa tabella si parla di SELF JOIN: in questo caso per distinguere le due tabelle è indispensabile 
+fare uso di alias. 
 
 Sintassi di base: 
 SELECT <lista-select>
@@ -250,6 +253,8 @@ FROM <tabella>
         JOIN <nometabella> [<alias>] ON (<condizione di join>)
 
 [ Se si ha tempo si parla dell'OUTER JOIN]
+
+
 
 Esempi: 
 
