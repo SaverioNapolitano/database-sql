@@ -29,29 +29,27 @@ Il predicato espresso nella clausola HAVING è formulato utilizzando:
 
 Esempio: 
 
-S 
-----------------------------
-| CF  | NOME | CITTA | ETA |
-----------------------------
-| CF1 | A    | MO    | 16  |
-----------------------------
-| CF2 | B    | MI    | 19  |
-----------------------------
-| CF3 | C    | MO    | 21  |
-----------------------------
+E 
+---------------------
+| MATR  | CC | VOTO |
+---------------------
+| M1    | C1 | 23   |
+---------------------
+| M1    | C2 | 25   |
+---------------------
+| M2    | C1 | 21   |
+---------------------
 
-SELECT NOME
-FROM S 
-GROUP BY CITTA, NOME 
-HAVING ETA > 18
+SELECT MATR, AVG(VOTO) AS MEDIA
+FROM E 
+GROUP BY MATR 
+HAVING AVG(VOTO) > 22
 
---------
-| NOME |
---------
-| C    |
---------
-| B    |
---------
+----------------
+| MATR | MEDIA |
+----------------
+| M1   | 24    |
+----------------
 
 */
 
