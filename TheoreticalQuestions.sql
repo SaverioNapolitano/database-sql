@@ -304,77 +304,7 @@ FROM R JOIN S ON (R.NOME = S.NOME)
 ----------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------
 
-
-
-/*5. Istruzione FOREIGN KEY in SQL ed esempio che ne mostri le diverse opzioni */
-
-/*
-La foreign key è un vincolo di colonna che si assegna ad un attributo in fase di creazione della tabella e che implica che la chiave specificata
-all'interno di questa colonna deve corrispondere ad un attributo UNIQUE esistente (vincolo di integrità referenziale) su un'altra relazione.
-Ogni vincolo di foreign key va inserito all'interno della create table o alter table e si può scrivere in due modi:
-- CREATE TABLE <nome-tabella> (
-    <nome-colonna> <tipo-colonna> REFERENCES <altra-tabella> [(<colonna-altra-tabella>)]
-    ...
-)
-- CREATE TABLE <nome-tabella> (
-    ...
-    FOREIGN KEY (<lista-attributi>) REFERENCES <altra-tabella> (<lista-attributi-altra-tabella>)
-)
-Solo con quest'ultima sintassi è possibile riferirsi a tabelle che hanno chiavi multivalore
-
-Esempio: 
-
-R 
--------------
-| C1 | C2   |
--------------
-| a  | b    |
--------------
-| c  | NULL |
--------------
-R(_C1_, C2)
-FK: C2 REFERENCES s 
-
-S 
------------
-| C1 | C2 |
------------
-| b  | d  |
------------
-| e  | f  |
------------
-S(_C1_, C2)
-
-In SQL:
-CREATE TABLE S (
-    C1 VARCHAR(1) PRIMARY KEY,
-    C2 VARCHAR(1)
-)
-
-CREATE TABLE R (
-    C1 VARCHAR(1) PRIMARY KEY,
-    C2 VARCHAR(1) REFERENCES S
-)
-
-INSERT INTO S VALUES 
-    ('b', 'd'),
-    ('e', 'f')
-
-INSERT INTO R VALUES 
-    ('a', 'b')
-    ('c', NULL)
-
-
-*/
-
-----------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------
-
-
-/*6. Operatori di OUTER JOIN in SQL */
+/*5. Operatori di OUTER JOIN in SQL */
 /*
 Outerjoin: una tupla che non contribuisce al join è detta dangling. 
 Gli operatori di outerjoin servono per includere nel risultato del join anche tuple dangling: tali tuple sono concatenate con tuple composte da valori nulli.
@@ -451,7 +381,7 @@ FROM R FULL OUTER JOIN S ON R.NOME = S.NOME
 
 
 
-/*7. Operatori di JOIN dell'algebra relazionale */
+/*6. Operatori di JOIN dell'algebra relazionale */
 
 /*
 Il Theta-join tra r e s definisce un sottoinsieme del prodotto cartesiano r × s ottenuto tramite una operazione di selezione.
