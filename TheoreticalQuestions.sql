@@ -325,7 +325,7 @@ R
 | c  | NULL |
 -------------
 R(_C1_, C2)
-FK: C2 REFERENCES s 
+FK: C2 REFERENCES S 
 
 S 
 -----------
