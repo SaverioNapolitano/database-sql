@@ -390,7 +390,7 @@ Date due relazioni r e s con schema R(X) e S(Y), e un predicato di join F costit
 AΘB, dove A ∈ X, B ∈ Y e Θ è un operatore di confronto, il Theta-join tra r e s è definito come
 r (*theta-join*)_F s = σ_F(r×s)
 
-Nel theta-join il predicato di join F può fare uso di generici predicti di confronto. 
+Nel theta-join il predicato di join F può fare uso di generici predicati di confronto. 
 
 Nell'EquiJoin i predicati di confronto sono esclusivamente predicati di uguaglianza.
 
