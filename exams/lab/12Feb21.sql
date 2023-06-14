@@ -15,7 +15,6 @@ FROM SEDE S
 WHERE ID_SEDE NOT IN (
     SELECT C.id_sede
     FROM CONCERTO C 
-    WHERE C.id_sede = S.id_sede
 )
 
 --4. Selezionare, per ogni persona, il nome, il cognome, il numero di concerti a cui ha partecipato, 
