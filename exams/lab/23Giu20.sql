@@ -23,10 +23,32 @@ HAVING COUNT(*) >= ALL(
 )
 GO
 
+--4.2 Riportare il nome del farmaco (o dei farmaci a pari merito) che a dicembre 2019 sono stati somministrati più volte.
+
+SELECT S.nome
+FROM Somministrazioni S 
+WHERE YEAR(S.[data]) = 2019 
+AND MONTH(S.[data]) = 12
+GROUP BY S.nome
+HAVING COUNT(*) >= ALL(
+    SELECT COUNT(*)
+    FROM Somministrazioni S1 
+    WHERE YEAR(S1.[data]) = 2019
+    AND MONTH(S1.[data]) = 12
+    GROUP BY S1.nome
+)
+GO 
+
 --5. Modificare la foreign key sulla tabella Somministrazioni in modo che a seguito dell’eliminazione di un Farmaco, le Sommistrazioni di tale Farmaco  facciano riferimento a null.
 
+ALTER TABLE SOMMINISTRAZIONI 
+ADD CONSTRAINT FK_FARMACO FOREIGN KEY(NOME) REFERENCES FARMACO(NOME) ON DELETE CASCADE 
 
+--5.2 Modificare la foreign key sulla tabella Esemplare in modo che a seguito dell'update del CF di un Proprietario, i suoi animali facciano riferimento al suo nuovo CF.
 
+ALTER TABLE ESEMPLARE 
+ADD CONSTRAINT FK_PROPRIETARIO FOREIGN KEY(cf_Proprietario) REFERENCES PROPRIETARIO(CF) ON UPDATE CASCADE 
+GO 
 
 --6. Riportare il nome del farmaco (già somministrato in passato), che è da più tempo che non viene somministrato in una visita.
 
@@ -49,6 +71,35 @@ WHERE US.[data] <= ALL(
 )
 GO 
 
+--6.2 Riportare l’elenco di tutti gli esemplari che hanno subito l'ultima visita più di 3 mesi fa (o 90 giorni fa).
+
+CREATE VIEW ULTIMA_VISITA AS 
+SELECT V.Esemplare, V.[data]
+FROM VISITA V 
+GROUP BY V.Esemplare, V.[data]
+HAVING V.[data] >= ALL(
+    SELECT V1.[data]
+    FROM VISITA V1 
+    WHERE V1.Esemplare = V.Esemplare
+)
+GO 
+
+SELECT E.*
+FROM ESEMPLARE E 
+        JOIN ULTIMA_VISITA UV ON (E.identificativo = UV.Esemplare)
+WHERE DATEDIFF(MONTH, UV.[data], GETDATE()) > 3
+GO 
+
+/*SOLUZIONE SENZA VISTA DI SUPPORTO
+SELECT distinct E1.*
+FROM Esemplare E1 join Visita V on (E1.identificativo=V.Esemplare)
+WHERE E1.identificativo NOT IN (
+    SELECT E.identificativo
+    FROM Esemplare E join Visita V on (E.identificativo=V.Esemplare)
+    WHERE DATEDIFF (MM , V.data , GETDATE()) <= 3
+)
+*/
+
 --7. Visualizzare per ogni visita: il numero totale di farmaci prescritti e il totale del prezzo pagato per i farmaci prescritti (si tenga conto delle dosi di somministrazione di ciascun farmaco) 
 
 SELECT V.Esemplare, V.[data], COUNT(*) AS NFARMACI, SUM(DOSE*PREZZO) AS TOTALE
@@ -56,3 +107,33 @@ FROM VISITA V
         JOIN Somministrazioni S ON (V.Esemplare = S.esemplare AND V.[data] = S.[data])
         JOIN FARMACO F ON (S.nome = F.nome)
 GROUP BY V.Esemplare, V.[data]
+GO 
+
+--7.2 Visualizzare per ogni proprietario: 
+--il numero totale di esemplari in suo possesso ancora in vita (data_morte  dovrà essere null), 
+--il totale pagato per le visite di tutti i suoi animali (si faccia riferimento al costo riportato in fattura), 
+--il numero di visite medio subito dai suoi esemplari.
+
+CREATE VIEW ANIMALI_VIVI AS 
+SELECT P.CF, COUNT(*) AS ANIMALI_VIVI
+FROM Proprietario P 
+        JOIN Esemplare E ON (P.cf = E.cf_Proprietario)
+WHERE E.data_morte IS NULL 
+GROUP BY ALL P.cf
+GO 
+
+CREATE VIEW ANIMALI_TOTALI AS 
+SELECT P.CF, COUNT(*) AS ANIMALI_TOTALI
+FROM Proprietario P 
+        JOIN Esemplare E ON (P.cf = E.cf_Proprietario) 
+GROUP BY ALL P.cf
+GO 
+
+SELECT P.NOME, SUM(V.fattura) AS TOTALE, AV.ANIMALI_VIVI, CAST (COUNT(*) AS FLOAT) /  CAST(ATOT.ANIMALI_TOTALI AS FLOAT) AS VISITE_IN_MEDIA--, ATOT.ANIMALI_TOTALI
+FROM Proprietario P 
+        LEFT JOIN ANIMALI_TOTALI ATOT ON (ATOT.cf = P.CF)
+        LEFT JOIN ANIMALI_VIVI AV ON (P.cf = AV.cf)
+        LEFT JOIN Esemplare E ON (P.cf = E.cf_Proprietario)
+        LEFT JOIN Visita V ON (E.identificativo = V.Esemplare)
+GROUP BY ALL P.cf, P.cognome, P.nome, P.data_nascita, AV.ANIMALI_VIVI, ATOT.ANIMALI_TOTALI
+GO 
