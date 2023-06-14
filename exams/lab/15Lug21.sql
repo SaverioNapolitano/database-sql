@@ -19,12 +19,22 @@ group by M.richiedente1, M.dataRichiesta, somma
 --3. Selezionare per ogni intermediario il suo nome e il numero di mutui negato, 
 -- riportando in ordine descrescente dall'intermediario che ha negato più mutui a quello che non ne ha mai negati.
 
-SELECT P.ID, P.NOME, COUNT(*) AS MUTUINEGATI
+SELECT P.ID, P.NOME, COUNT(dataRichiesta) AS MUTUINEGATI
+FROM MUTUO M 
+        RIGHT JOIN Persona P ON (M.intermediario = P.id)
+WHERE (M.stato = 2 OR M.stato IS NULL)
+AND P.tipo = 'INTERMEDIARIO'
+GROUP BY P.ID, P.NOME
+ORDER BY 3 DESC 
+
+/*SOLUZIONE IN CUI NON VENGONO RIPORTATE LE TUPLE DANGLING (MANCANO GLI INTERMEDIARI CHE NON HANNO MAI NEGATO MUTUI)
+SELECT P.ID, P.NOME, COUNT(dataRichiesta) AS MUTUINEGATI
 FROM MUTUO M 
         JOIN Persona P ON (M.intermediario = P.id)
 WHERE M.stato = 2
 GROUP BY P.ID, P.NOME
 ORDER BY 3 DESC 
+*/
 
 
 --4. Selezionare i dati dei clienti richiedenti che non hanno mai ottenuto un finanziamento di un mutuo (come richiedente1): 
@@ -42,8 +52,6 @@ WHERE P.id NOT IN (
 --5. Selezionare i mutui il cui finanziamento risulta una richiesta in corso, riportarne la data di richiesta e l'importo 
 --e il numero di giorni dalla data di richiesta ad oggi.
 
-SELECT dataRichiesta, somma
+SELECT dataRichiesta, somma, DATEDIFF(DAY, dataRichiesta, GETDATE()) AS GIORNI_TRASCORSI
 FROM MUTUO M 
 WHERE STATO = 0
-
---MANCA NUMERO GIORNI DALLA DATA DI RICHIESTA AD OGGI
