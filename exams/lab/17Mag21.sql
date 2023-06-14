@@ -37,3 +37,19 @@ HAVING SUM(DOSE*F.PREZZO) >=ALL (
         JOIN Farmaco F1 ON (S1.nome = F1.nome)
     GROUP BY V1.animale
 )
+
+--5.2 Selezionare per ogni anno l'animale che ha effettuato più visite. 
+--Riportare il numero di visite effettuate e i dati del suo proprietario, riportare anche eventuali parimerito
+
+SELECT A.*, P.*, COUNT(*) AS NVISITE, YEAR(V.[data]) AS ANNO 
+FROM Animale A 
+        JOIN Visita V ON (A.identificativo = V.animale)
+        JOIN Padrone P ON (A.cf_padrone = P.cf)
+GROUP BY A.identificativo, A.aspettativa_di_vita, A.cf_padrone, A.data_morte, A.eta, A.specie, P.cf, P.cognome, P.nome, P.data_nascita, YEAR(V.[data])
+HAVING COUNT(*) >= ALL(
+        SELECT COUNT(*)
+        FROM ANIMALE A1 
+                JOIN Visita V1 ON (A1.identificativo = V1.animale)
+        WHERE YEAR(V1.[data]) = YEAR(V.[data])
+        GROUP BY A1.identificativo
+)
