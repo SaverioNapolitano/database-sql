@@ -53,9 +53,9 @@ WHERE C.NOME = 'Gianni Nibali'
 --6. Selezionare per ogni marca di tablet, il numero e il prezzo medio degli tablet acquistati nel 2020, includere nel risultato anche le marche per le quali non sono stati acquistati tablet in tale anno. 
 --Ordinare il risultato per il prezzo medio degli tablet in senso descrescente.
 
-SELECT T.MARCA, COUNT(*) AS NUMERO, AVG(PREZZO) AS MEDIA
+SELECT T.MARCA, COUNT(*) AS NUMERO, ISNULL(AVG(PREZZO),0) AS MEDIA
 FROM TABLET T 
         LEFT JOIN ACQUISTO A ON (T.CODTAB = A.CODTAB)
 WHERE YEAR(A.[DATA]) = 2020
-GROUP BY T.MARCA
+GROUP BY ALL T.MARCA
 ORDER BY 3 DESC 
