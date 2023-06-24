@@ -16,6 +16,6 @@ Here you can find solutions to some past exams: each script contains the text of
 
 ## Other
 
-RecursiveQueryNotes contains some notes about the recursive query that I re-elaborated while studying for the exam.
+**RecursiveQueryNotes** contains some notes about the recursive query that I re-elaborated while studying for the exam.
 
-TheoreticalQuestions contains the main questions that are likely to be found in the exam and their related answers. 
+**TheoreticalQuestions** contains the main questions that are likely to be found in the exam and their related answers. 
