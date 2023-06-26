@@ -14,6 +14,10 @@ Here you can find some notes taken, as well as some exercises done, during lab l
 
 Here you can find solutions to some past exams: each script contains the text of the exercises and the corresponding query. 
 
+Exams are divided considering their type:
+* **lab** exams, in which you have to use your computer to formulate query
+* written exams, the latter are further divided in written exams about all the topic of the course (**totali**) and written exams about just the second part of the course (**secondiparziali**)
+
 ## Other
 
 **RecursiveQueryNotes** contains some notes about the recursive query that I re-elaborated while studying for the exam.
