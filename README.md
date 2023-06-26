@@ -16,7 +16,7 @@ Here you can find solutions to some past exams: each script contains the text of
 
 Exams are divided considering their type:
 * **lab** exams, in which you have to use your computer to formulate query
-* written exams, the latter are further divided in written exams about all the topic of the course (**totali**) and written exams about just the second part of the course (**secondiparziali**)
+* written exams, which are further divided in written exams about all the topic of the course (**totali**) and written exams about just the second part of the course (**secondiparziali**)
 
 ## Other
 
